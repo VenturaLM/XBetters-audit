@@ -83,7 +83,7 @@ describe("XBetters", function () {
 
                     // Mint.
                     console.log(owner.address);
-                    await expect(contract.whitelistAMint(tests[i][0], tests[i][1])).not.to.be.revertedWith("Not whitelisted");
+                    await expect(contract.connect(owner).whitelistAMint(tests[i][0], tests[i][1])).not.to.be.revertedWith("Not whitelisted");
                     console.log(await (contract.totalSupply()));
 
                     // Test.

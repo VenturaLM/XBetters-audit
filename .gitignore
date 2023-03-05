@@ -1,0 +1,14 @@
+/node_modules
+/utils/node_modules
+/report_utils
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+

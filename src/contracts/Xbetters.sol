@@ -31,11 +31,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import {DefaultOperatorFilterer} from "./opensea/DefaultOperatorFilterer.sol";
 
 contract XBetters is ERC721A, DefaultOperatorFilterer, Ownable {
-    uint256 private constant MAX_SUPPLY = 30;
+    uint256 private constant MAX_SUPPLY = 3000;
 
-    uint256 private MAX_WLA_MINTS_PER_ADDRESS = 10;
-    uint256 private MAX_WLB_MINTS_PER_ADDRESS = 10;
-    uint256 private MAX_PUB_MINTS_PER_ADDRESS = 1;
+    uint256 private MAX_WLA_MINTS_PER_ADDRESS = 1000;
+    uint256 private MAX_WLB_MINTS_PER_ADDRESS = 1000;
+    uint256 private MAX_PUB_MINTS_PER_ADDRESS = 100;
 
     uint256 public whitelistAMintPrice = 0.12 ether;
     uint256 public whitelistBMintPrice = 0.12 ether;
@@ -45,7 +45,8 @@ contract XBetters is ERC721A, DefaultOperatorFilterer, Ownable {
 
     bytes32 private merkleRootA;
     bytes32 private merkleRootB;
-    address private fiatMinter = 0x349560B18AF0aC8474dFa15221C5430A94A5E3C6;
+    // This address has been updated to Hardhat's first address in order to carry out tests.
+    address private fiatMinter = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
 
     enum Phase {
         Before,
@@ -65,7 +66,7 @@ contract XBetters is ERC721A, DefaultOperatorFilterer, Ownable {
 
     constructor() ERC721A("XBetters", "XBET") {
         // Premint 300 tokens for the team
-        _safeMint(msg.sender, 3);
+        _safeMint(msg.sender, 300);
     }
 
     function setBaseURI(string memory _newBaseURI) public onlyOwner {

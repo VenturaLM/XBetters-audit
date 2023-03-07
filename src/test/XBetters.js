@@ -101,6 +101,14 @@ describe("XBetters", function () {
             expect(await contract.ownerOf(0)).to.equal(account1.address);
         });
 
+        it(`Runs transferFrom() after approve()`, async function () {
+            const { contract, owner, account1 } = await loadFixture(deploy);
+
+            contract.approve(account1.address, 0); // To, TokenId.
+            expect(await contract.connect(account1).transferFrom(owner.address, account1.address, 0)).to.emit("Received"); // From, To, TokenId.
+            expect(await contract.ownerOf(0)).to.equal(account1.address);
+        });
+
         it(`FIXME: Runs safeTransferFrom()`, async function () {
             const { contract, owner, account1 } = await loadFixture(deploy);
 

@@ -8,7 +8,7 @@ module.exports = {
   solidity: "0.8.17",
   gasReporter: {
     enabled: true,
-    outputFile: "gas_report_XBetters_IP.txt",
+    // outputFile: "gas_report_XBetters_IP.txt",
     noColors: true,
     currency: "USD",
     coinmarketcap: COINMARKETCAP_API_KEY,

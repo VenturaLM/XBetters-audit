@@ -10,4 +10,9 @@ typechain-types
 # Hardhat files
 cache
 artifacts
-gas_report.txt
+*.txt
+
+# Truffle files
+src/build
+src/migrations
+src/test/XBetters_Truffle.js

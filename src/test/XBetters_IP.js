@@ -212,7 +212,7 @@ describe("XBetters IP", function () {
                     expect(phase).to.equal(tests[i][2]);
 
                     // Mint.
-                    // FIXME: Although the Merkle Proof have been proved in Remix and here in Hardhat
+                    // FIXME: Although the Merkle Proof has been proved in Remix and here in Hardhat
                     // the data have been also checked that is correctly assigned, the test does fail.
                     await expect(contract.whitelistAMint(tests[i][0], tests[i][1], { from: owner.address, value: ethers.utils.parseEther("0.12"), })).not.to.be.revertedWith("Not whitelisted");
 

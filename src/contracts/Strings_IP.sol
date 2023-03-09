@@ -8,7 +8,7 @@ import "./math/Math_IP.sol";
 /**
  * @dev String operations.
  */
-library Strings {
+library Strings_IP {
     bytes16 private constant _SYMBOLS = "0123456789abcdef";
     uint8 private constant _ADDRESS_LENGTH = 20;
 
@@ -17,7 +17,7 @@ library Strings {
      */
     function toString(uint256 value) internal pure returns (string memory) {
         unchecked {
-            uint256 length = Math.log10(value) + 1;
+            uint256 length = Math_IP.log10(value) + 1;
             string memory buffer = new string(length);
             uint256 ptr;
             /// @solidity memory-safe-assembly
@@ -42,7 +42,7 @@ library Strings {
      */
     function toHexString(uint256 value) internal pure returns (string memory) {
         unchecked {
-            return toHexString(value, Math.log256(value) + 1);
+            return toHexString(value, Math_IP.log256(value) + 1);
         }
     }
 

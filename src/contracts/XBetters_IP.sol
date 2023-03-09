@@ -333,7 +333,7 @@ contract XBetters_IP is ERC721A, DefaultOperatorFilterer, Ownable {
                 string(
                     abi.encodePacked(
                         baseURI,
-                        Strings.toString(tokenId),
+                        Strings_IP.toString(tokenId),
                         ".json"
                     )
                 );

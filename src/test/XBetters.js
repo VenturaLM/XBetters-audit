@@ -109,11 +109,19 @@ describe("XBetters", function () {
             expect(await contract.ownerOf(0)).to.equal(account1.address);
         });
 
-        it(`FIXME: Runs safeTransferFrom()`, async function () {
+        it(`Runs safeTransferFrom(address,address,uint256)`, async function () {
             const { contract, owner, account1 } = await loadFixture(deploy);
 
-            // FIXME: TypeError: contract.safeTransferFrom is not a function (?).
-            expect(await contract.safeTransferFrom(owner.address, account1.address, 0)).to.emit(contract, "Transfer"); // From, To, TokenId.
+            // Overloaded function.
+            expect(await contract["safeTransferFrom(address,address,uint256)"](owner.address, account1.address, 0)).to.emit(contract, "Transfer"); // From, To, TokenId.
+            expect(await contract.ownerOf(0)).to.equal(account1.address);
+        });
+
+        it(`Runs safeTransferFrom(address,address,uint256,bytes)`, async function () {
+            const { contract, owner, account1 } = await loadFixture(deploy);
+
+            // Overloaded function.
+            expect(await contract["safeTransferFrom(address,address,uint256,bytes)"](owner.address, account1.address, 0, "0x01")).to.emit(contract, "Transfer"); // From, To, TokenId.
             expect(await contract.ownerOf(0)).to.equal(account1.address);
         });
     });
@@ -185,6 +193,7 @@ describe("XBetters", function () {
 
         // Check test cases.
         for (let i = 0; i < tests.length; i++) {
+            // Insert valid test cases in conditional.
             if (i == 0) {
                 // Valid tests cases.
                 it(`FIXME: whitelistAMint(${tests[i][0]}, [${tests[i][1]}]) - Expected: ${tests[i][3]}`, async function () {
@@ -193,7 +202,7 @@ describe("XBetters", function () {
                     // Set Merkle root.
                     contract.setMerkleRootA(merkleRoot);
                     // Get Merkle root.
-                    expect(await (contract.getMerkleRootA())).to.equal(merkleRoot);
+                    expect(await contract.getMerkleRootA()).to.equal(merkleRoot);
 
                     // Set phase.
                     contract.setPhase(tests[i][2]);
@@ -205,7 +214,7 @@ describe("XBetters", function () {
                     // Mint.
                     // FIXME: Although the Merkle Proof have been proved in Remix and here in Hardhat
                     // the data have been also checked that is correctly assigned, the test does fail.
-                    await expect(contract.connect(owner).whitelistAMint(tests[i][0], tests[i][1])).not.to.be.revertedWith("Not whitelisted");
+                    await expect(contract.whitelistAMint(tests[i][0], tests[i][1], { from: owner.address, value: ethers.utils.parseEther("0.12"), })).not.to.be.revertedWith("Not whitelisted");
 
                     // Test.
                     const tokens = await contract.tokensOfOwner(owner.address);
@@ -239,7 +248,7 @@ describe("XBetters", function () {
 
     // =============================================================================================
 
-    describe("FIXME: publicMint()", function () {
+    describe("publicMint()", function () {
         it(`Runs publicMint()`, async function () {
             const { contract, account1 } = await loadFixture(deploy);
 
@@ -248,7 +257,7 @@ describe("XBetters", function () {
             const phase = await contract.phase();
             expect(phase).to.equal(3);
 
-            await contract.connect(account1).publicMint(1); // FIXME: Since this does not work, test fails.
+            await contract.connect(account1).publicMint(1, { from: account1.address, value: ethers.utils.parseEther("0.15"), });
 
             const tokens = await contract.tokensOfOwner(account1.address);
             const tokenList = tokens.map(bn => bn.toNumber());
@@ -316,15 +325,15 @@ describe("XBetters", function () {
 
     // =============================================================================================
 
-    describe("FIXME: withdraw()", function () {
+    describe("withdraw()", function () {
         it(`Test the exchange of balance among EOA and the CA`, async function () {
             const { contract, account1 } = await loadFixture(deploy);
 
             contract.setPhase(3);
-            await contract.connect(account1).publicMint(1); // FIXME: Since this does not work, test fails.
+            await contract.connect(account1).publicMint(1, { from: account1.address, value: ethers.utils.parseEther("0.15"), });
 
             // Check contract's balance that must be equal to the previous TX price.
-            const balance = await contract.balance();
+            const balance = await contract.provider.getBalance(contract.address);
             const mintPrice = await contract.mintPrice();
 
             expect(balance).to.equal(mintPrice);
